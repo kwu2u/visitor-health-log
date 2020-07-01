@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% set active_page = "index" %}
+{% block content %}
+  {% include 'flash.html' %}
+  <link href={{ url_for('static', filename='css/buttons.bootstrap.min.css') }} rel='stylesheet'>
+  <link href={{ url_for('static', filename='css/dataTables.bootstrap.min.css') }} rel='stylesheet'>
+  <link href={{ url_for('static', filename='css/datatables.min.css') }} rel='stylesheet'>
+  <link href={{ url_for('static', filename='css/fixedColumns.bootstrap.min.css') }} rel='stylesheet'>
+  <link href={{ url_for('static', filename='css/fixedHeader.bootstrap.min.css') }} rel='stylesheet'>
+  <link href={{ url_for('static', filename='css/jquery.dataTables.min.css') }} rel='stylesheet'>
+  <link href={{ url_for('static', filename='css/jquery.dataTables_themeroller.css') }} rel='stylesheet'>
+  <link href={{ url_for('static', filename='css/responsive.bootstrap.min.css') }} rel='stylesheet'>
+  <link href={{ url_for('static', filename='css/scroller.bootstrap.min.css') }} rel='stylesheet'>
+  <hr/>
+  <div class="col-md-12">
+    <div class="row">
+      <table id="example" class="table table-condensed table-bordered" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th>Date & Time</th>
+              <th>Purpose</th>
+    					<th>Name</th>
+              <th>Fever?</th>
+    					<th>Symtoms?</th>
+    					<th>Tested Positive?</th>
+              <th>Quarantined?</th>
+              <th>Passed?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- loop through each row in data -->
+          	{% for d in data %}
+          	<tr>
+    					<td>{{ d.datetime }}</td>
+              <td>{{ d.purpose }}</td>
+              <td>{{ d.name }}</td>
+              <td>{{ d.fever }}</td>
+              <td>{{ d.symptoms }}</td>
+              <td>{{ d.positive_test }}</td>
+              <td>{{ d.quarantined }}</td>
+              <td>{{ d.passed }}</td>
+            </tr>
+    	      {% endfor %}
+      	 </tbody>
+      </table>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add Visitor</h4>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <form action="" method="post" name="add-row" class="form" role="form">
+                {{ form.hidden_tag() }}
+                <!-- easy form fields through wtf -->
+                <div class="col-sm-3">Date & Time</div>
+                <div class="col-sm-9"><input type="datetime-local" id="datetime" name="datetime"></div>
+                <div class="col-sm-12">{{ wtf.form_field(form.purpose, placeholder="Purpose", class_="form-control") }}</div>
+    						<div class="col-sm-12">{{ wtf.form_field(form.name, placeholder="Name", class_="form-control") }}</div>
+                <div class="col-sm-12"><b>My visitor has:</b><hr/></div>
+    						<div class="col-sm-12">{{ wtf.form_field(form.fever, class_="form-control") }}<hr/></div>
+                <div class="col-sm-12">{{ wtf.form_field(form.symptoms, class_="form-control") }}<hr/></div>
+                <div class="col-sm-12">{{ wtf.form_field(form.positive_test, class_="form-control") }}<hr/></div>
+    						<div class="col-sm-12">{{ wtf.form_field(form.quarantined, class_="form-control") }}<hr/></div>
+    						<div class="col-sm-12"><input type="submit" class="btn btn-primary pull-right" value="Add Visitor"></input></div>
+    					</form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <!-- <div class="row">
+      <div class="col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Parents</h3>
+          </div>
+          <div class="panel-body">
+            Panel content
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Family & Friends</h3>
+          </div>
+          <div class="panel-body">
+            Panel content
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Results</h3>
+          </div>
+          <div class="panel-body">
+            Panel content
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <script src={{ url_for('static', filename='js/jquery.dataTables.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/dataTables.bootstrap.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/datatables.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/buttons.bootstrap.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/buttons.colVis.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/buttons.flash.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/buttons.html5.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/buttons.print.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/dataTables.fixedColumns.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/dataTables.fixedHeader.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/dataTables.responsive.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/dataTables.scroller.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/jszip.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/moment.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/responsive.bootstrap.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/vfs_fonts.js') }}></script>
+  <script src={{ url_for('static', filename='js/pdfmake.min.js') }}></script>
+  <script type="text/javascript">
+      $(document).ready(function() {
+          var table = $('#example').DataTable({
+              dom: 'Bfrtip',
+              fixedHeader: false,
+              fixedColumns: false,
+              "scrollX": true,
+              "order": [[ 0, "desc" ]],
+              "paging": true,
+              "pageLength" : 10,
+              responsive: false,
+              ////////////////////////////
+              // uncomment to enable virtual rendering plug-in for DataTables
+              // which allows large datasets to be drawn on screen very quickly
+              // note: disable fixedHeader when enabled
+              //scrollY: 500,
+              //deferRender: true,
+              //scroller: true,
+              ///////////////////////////
+              lengthMenu: [
+                  [ 5, 10, 25, -1 ],
+                  [ '5 rows', '10 rows', '25 rows', 'Show all' ]
+              ],
+              buttons: [
+                  'pageLength',
+                  'copyHtml5',
+                  'excelHtml5',
+                  {   // custom button to open add row form in modal
+                      className: 'add-row',
+                      text: '&nbsp&nbsp Add &nbsp&nbsp',
+                      action: function () {
+                          $('#myModal').modal('show');
+                      }
+                  },
+              ],
+          });
+
+      } );
+
+      // force modal to appear if errors so form AddRowForm is visible
+      {% if form.errors %}$('#myModal').modal('show');{% endif %}
+  </script>
+{% endblock %}
